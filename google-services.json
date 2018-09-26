@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "686417494321",
+    "firebase_url": "https://freshscan-ac19a.firebaseio.com",
+    "project_id": "freshscan-ac19a",
+    "storage_bucket": "freshscan-ac19a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686417494321:android:3b3b1b98795ef6d0",
+        "android_client_info": {
+          "package_name": "com.rcca.freshscan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "686417494321-b8ke0o3gjhcug891ge50kchijh682msc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAQf99dbxGxSYfhgk58EyKb3Wg1teVkcI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
