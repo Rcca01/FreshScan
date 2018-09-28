@@ -10,31 +10,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-admin.initializeApp();
-exports.newSubscriberNotification = functions.database.ref('/perigo/status')
+admin.initializeApp(functions.config().firebase);
+exports.notificationStatus = functions.database.ref('/perigo/status')
     .onUpdate((event) => __awaiter(this, void 0, void 0, function* () {
-    const data = event.data.val();
-    const userId = data.userId;
-    const subscriber = data.subscriberId;
-    // Notification content
+   //Notification content
     const payload = {
         notification: {
-            title: 'New Subscriber',
-            body: `${subscriber} is following your content!`,
-            icon: 'https://goo.gl/Fz9nrQ'
+            title: 'Alerta de temperatura',
+            body: 'Temperatura do local está acima do permitido',
+            icon: 'default'
         }
-    };
-    // ref to the device collection for the user
-    const db = admin.firestore();
-    const devicesRef = db.collection('devices').where('userId', '==', userId);
-    // get the user's tokens and send notifications
-    const devices = yield devicesRef.get();
+    }
+
+    const status = event.data.val();
+    const db = admin.database();
     const tokens = [];
-    // send a notification to each device token
-    devices.forEach(result => {
-        const token = result.data().token;
-        tokens.push(token);
-    });
-    return admin.messaging().sendToDevice(tokens, payload);
+
+
+    db.ref('/devices').once('value').then(function(snapshot){
+        snapshot.forEach(function(childSnapshot){
+        tokens.push(childSnapshot.val().token);
+        })
+    })
+
+    return admin.messaging().sendToDevice("fwJ65yTWUQQ:APA91bHi8DFt7Telrh402BvtYcdoMcUiOQz6RMef_3iyKqmNaf3YBlxnlavGwNC6U9CrczN0RnNKqUOa7d2xLzlrKoi8FDs",payload);
 }));
 //# sourceMappingURL=index.js.map

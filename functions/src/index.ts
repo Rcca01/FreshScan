@@ -1,13 +1,13 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import 'firebase-functions';
+
 admin.initializeApp();
 
-exports.newSubscriberNotification = functions.database.ref('/perigo/status')
-.onUpdate((event:functions.Event<functions.database.DeltaSnapshot>) => {
+exports.notificationStatus = functions.database.ref('/perigo/status')
+.onUpdate(async event => {
 
   //Notification content
-  const payload:admin.messaging.MessagingPayload = {
+  const payload = {
     notification: {
         title: 'Alerta de temperatura',
         body: 'Temperatura do local está acima do permitido',
@@ -20,16 +20,13 @@ exports.newSubscriberNotification = functions.database.ref('/perigo/status')
   const tokens = [];
 
 
-  db.ref('/devices').once('value').then((snapshot) => {
+  db.ref('/devices').once('value').then(function(snapshot){
     snapshot.forEach(function(childSnapshot){
       tokens.push(childSnapshot.val().token);
     })
-  })
-
-  return admin.messaging().sendToDevice(tokens,payload).then((response)=>{
-    console.log(response)
   }).catch((error)=>{
     console.log(error);
   })
 
+  return admin.messaging().sendToDevice(tokens,payload);
 });
